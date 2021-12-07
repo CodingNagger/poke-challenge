@@ -1,14 +1,13 @@
 package com.codingnagger.pokechallenge.testutils;
 
+import com.codingnagger.pokechallenge.model.PokemonResponseDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiFlavourTextEntryDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiNameDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiReferencedNameDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiResponseDto;
 import com.flextrade.jfixture.JFixture;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import static java.util.Collections.singletonList;
 
@@ -77,5 +76,9 @@ public class FixtureProvider {
         flavourTextEntryDto.setFlavorText(textEntry);
         flavourTextEntryDto.getLanguage().setName(language);
         return flavourTextEntryDto;
+    }
+
+    public static PokemonResponseDto randomPokemonResponse() {
+        return FIXTURE.create(PokemonResponseDto.class);
     }
 }
