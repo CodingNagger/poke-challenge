@@ -1,7 +1,7 @@
 package com.codingnagger.pokechallenge.services;
 
 
-import com.codingnagger.pokechallenge.model.PokemonResponseDto;
+import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiResponseDto;
 import com.codingnagger.pokechallenge.testutils.FixtureProvider;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ public class PokemonServiceTest {
         doReturn(ResponseEntity.ok(apiResponseDto))
                 .when(restTemplate).getForEntity(anyString(), eq(PokeApiResponseDto.class));
 
-        PokemonResponseDto result = service.getBasicInformation(randomString()).get();
+        PokemonDto result = service.getBasicInformation(randomString()).get();
 
         assertThat(result.isLegendary()).isEqualTo(expectedStatus);
     }
@@ -55,7 +55,7 @@ public class PokemonServiceTest {
         doReturn(ResponseEntity.ok(apiResponseDto))
                 .when(restTemplate).getForEntity(anyString(), eq(PokeApiResponseDto.class));
 
-        PokemonResponseDto result = service.getBasicInformation(randomString()).get();
+        PokemonDto result = service.getBasicInformation(randomString()).get();
 
         assertThat(result.getHabitat()).isEqualTo(expectedHabitat);
     }
@@ -72,7 +72,7 @@ public class PokemonServiceTest {
         doReturn(ResponseEntity.ok(apiResponseDto))
                 .when(restTemplate).getForEntity(anyString(), eq(PokeApiResponseDto.class));
 
-        PokemonResponseDto result = service.getBasicInformation(randomString()).get();
+        PokemonDto result = service.getBasicInformation(randomString()).get();
 
         assertThat(result.getName()).isEqualTo(expectedName);
     }
@@ -89,7 +89,7 @@ public class PokemonServiceTest {
         doReturn(ResponseEntity.ok(apiResponseDto))
                 .when(restTemplate).getForEntity(anyString(), eq(PokeApiResponseDto.class));
 
-        PokemonResponseDto result = service.getBasicInformation(randomString()).get();
+        PokemonDto result = service.getBasicInformation(randomString()).get();
 
         assertThat(result.getDescription()).isEqualTo(expectedDescription);
     }
@@ -113,7 +113,7 @@ public class PokemonServiceTest {
         doReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
                 .when(restTemplate).getForEntity(anyString(), eq(PokeApiResponseDto.class));
 
-        Optional<PokemonResponseDto> responseDto = service.getBasicInformation(pokemonName);
+        Optional<PokemonDto> responseDto = service.getBasicInformation(pokemonName);
 
         assertThat(responseDto).isNotNull().isEmpty();
     }

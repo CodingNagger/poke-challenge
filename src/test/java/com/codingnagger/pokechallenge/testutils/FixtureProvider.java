@@ -1,6 +1,6 @@
 package com.codingnagger.pokechallenge.testutils;
 
-import com.codingnagger.pokechallenge.model.PokemonResponseDto;
+import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiFlavourTextEntryDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiNameDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiReferencedNameDto;
@@ -78,7 +78,7 @@ public class FixtureProvider {
         return flavourTextEntryDto;
     }
 
-    public static PokemonResponseDto randomPokemonResponse() {
-        return FIXTURE.create(PokemonResponseDto.class);
+    public static PokemonDto randomPokemonResponse() {
+        return FIXTURE.create(PokemonDto.class);
     }
 }

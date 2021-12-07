@@ -1,6 +1,6 @@
 package com.codingnagger.pokechallenge.controllers;
 
-import com.codingnagger.pokechallenge.model.PokemonResponseDto;
+import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.codingnagger.pokechallenge.services.PokemonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +17,8 @@ public class BasicInformationController {
     private final PokemonService pokemonService;
 
     @GetMapping("/pokemon/{pokemonName}")
-    public ResponseEntity<PokemonResponseDto> getPokemonInfo(@PathVariable("pokemonName") String pokemonName) {
-        Optional<PokemonResponseDto> responseDto = pokemonService.getBasicInformation(pokemonName);
+    public ResponseEntity<PokemonDto> getPokemonInfo(@PathVariable("pokemonName") String pokemonName) {
+        Optional<PokemonDto> responseDto = pokemonService.getBasicInformation(pokemonName);
 
         if (responseDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

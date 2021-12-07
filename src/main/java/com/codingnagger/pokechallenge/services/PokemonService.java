@@ -1,6 +1,6 @@
 package com.codingnagger.pokechallenge.services;
 
-import com.codingnagger.pokechallenge.model.PokemonResponseDto;
+import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiFlavourTextEntryDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiNameDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiResponseDto;
@@ -24,7 +24,7 @@ public class PokemonService {
     @Qualifier("pokeApiRestTemplate")
     private final RestTemplate restTemplate;
 
-    public Optional<PokemonResponseDto> getBasicInformation(String pokemonName) {
+    public Optional<PokemonDto> getBasicInformation(String pokemonName) {
         ResponseEntity<PokeApiResponseDto> response = restTemplate.getForEntity("/v2/pokemon-species/" + pokemonName,
                 PokeApiResponseDto.class);
 
@@ -35,8 +35,8 @@ public class PokemonService {
         return Optional.empty();
     }
 
-    private PokemonResponseDto mapResponse(PokeApiResponseDto pokeApiResponseDto) {
-        return PokemonResponseDto.builder()
+    private PokemonDto mapResponse(PokeApiResponseDto pokeApiResponseDto) {
+        return PokemonDto.builder()
                 .name(extractEnglishName(pokeApiResponseDto))
                 .description(extractDescription(pokeApiResponseDto))
                 .isLegendary(pokeApiResponseDto.isLegendary())

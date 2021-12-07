@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class PokemonResponseDto {
+public class PokemonDto {
     String name;
     String description;
     String habitat;

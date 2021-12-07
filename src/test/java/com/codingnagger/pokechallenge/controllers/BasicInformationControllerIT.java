@@ -1,6 +1,6 @@
 package com.codingnagger.pokechallenge.controllers;
 
-import com.codingnagger.pokechallenge.model.PokemonResponseDto;
+import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -43,14 +43,14 @@ public class BasicInformationControllerIT {
                         .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBodyFile("mewtwo_response.json")));
 
-        PokemonResponseDto expectedInfo = PokemonResponseDto.builder()
+        PokemonDto expectedInfo = PokemonDto.builder()
                 .name("Mewtwo")
                 .description("It was created by\na scientist after\nyears of horrific\fgene splicing and\nDNA engineering\nexperiments.")
                 .habitat("rare")
                 .isLegendary(true)
                 .build();
 
-        ResponseEntity<PokemonResponseDto> response = testRestTemplate.getForEntity("/pokemon/mewtwo", PokemonResponseDto.class);
+        ResponseEntity<PokemonDto> response = testRestTemplate.getForEntity("/pokemon/mewtwo", PokemonDto.class);
 
         assertThat(response).isNotNull()
                 .satisfies(res -> {

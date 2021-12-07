@@ -1,6 +1,6 @@
 package com.codingnagger.pokechallenge.controllers;
 
-import com.codingnagger.pokechallenge.model.PokemonResponseDto;
+import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.codingnagger.pokechallenge.services.PokemonService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,10 +30,10 @@ public class BasicInformationControllerTest {
     @Test
     public void getPokemonInfo_shouldReturnOkWithDto_whenServiceReturnsDto() {
         String pokemonName = randomString();
-        PokemonResponseDto expectedBody = randomPokemonResponse();
+        PokemonDto expectedBody = randomPokemonResponse();
         doReturn(Optional.of(expectedBody)).when(pokemonService).getBasicInformation(anyString());
 
-        ResponseEntity<PokemonResponseDto> actualResponse = controller.getPokemonInfo(pokemonName);
+        ResponseEntity<PokemonDto> actualResponse = controller.getPokemonInfo(pokemonName);
 
         assertThat(actualResponse)
                 .isNotNull()
@@ -52,7 +52,7 @@ public class BasicInformationControllerTest {
         String pokemonName = randomString();
         doReturn(Optional.empty()).when(pokemonService).getBasicInformation(anyString());
 
-        ResponseEntity<PokemonResponseDto> actualResponse = controller.getPokemonInfo(pokemonName);
+        ResponseEntity<PokemonDto> actualResponse = controller.getPokemonInfo(pokemonName);
 
         assertThat(actualResponse)
                 .isNotNull()
