@@ -1,10 +1,10 @@
 package com.codingnagger.pokechallenge.model;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class PokemonResponseDto {
     String name;
     String description;
