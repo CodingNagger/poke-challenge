@@ -5,6 +5,7 @@ import com.codingnagger.pokechallenge.model.pokeapi.PokeApiFlavourTextEntryDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiNameDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiReferencedNameDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiResponseDto;
+import com.codingnagger.pokechallenge.services.translation.FunTranslationLanguage;
 import com.flextrade.jfixture.JFixture;
 
 import java.util.Arrays;
@@ -20,12 +21,12 @@ public class FixtureProvider {
     }
 
     public static PokeApiResponseDto pokeApiResponseWithLegendaryStatus(boolean isLegendary) {
-        PokeApiResponseDto responseDto = randomPokeApiResponseDto();
+        PokeApiResponseDto responseDto = randomPokeApiResponse();
         responseDto.setLegendary(isLegendary);
         return responseDto;
     }
 
-    public static PokeApiResponseDto randomPokeApiResponseDto() {
+    public static PokeApiResponseDto randomPokeApiResponse() {
         return PokeApiResponseDto.builder()
                 .names(singletonList(pokeApiNameWithNameAndLanguage(randomString(), LANGUAGE_EN)))
                 .flavourTextEntries(singletonList(randomFlavourTextEntryWithLanguage(randomString(), LANGUAGE_EN)))
@@ -35,19 +36,19 @@ public class FixtureProvider {
     }
 
     public static PokeApiResponseDto pokeApiResponseWithHabitat(String habitat) {
-        PokeApiResponseDto responseDto = randomPokeApiResponseDto();
+        PokeApiResponseDto responseDto = randomPokeApiResponse();
         responseDto.setHabitat(PokeApiReferencedNameDto.builder().name(habitat).build());
         return responseDto;
     }
 
     public static PokeApiResponseDto pokeApiResponseWithNames(PokeApiNameDto... names) {
-        PokeApiResponseDto responseDto = randomPokeApiResponseDto();
+        PokeApiResponseDto responseDto = randomPokeApiResponse();
         responseDto.setNames(Arrays.asList(names));
         return responseDto;
     }
 
     public static PokeApiResponseDto pokeApiResponseWithFlavourTextEntries(PokeApiFlavourTextEntryDto... flavourTextEntries) {
-        PokeApiResponseDto responseDto = randomPokeApiResponseDto();
+        PokeApiResponseDto responseDto = randomPokeApiResponse();
         responseDto.setFlavourTextEntries(Arrays.asList(flavourTextEntries));
         return responseDto;
     }
@@ -78,7 +79,11 @@ public class FixtureProvider {
         return flavourTextEntryDto;
     }
 
-    public static PokemonDto randomPokemonResponse() {
+    public static PokemonDto randomPokemon() {
         return FIXTURE.create(PokemonDto.class);
+    }
+
+    public static FunTranslationLanguage randomFunTranslationLanguage() {
+        return FIXTURE.create(FunTranslationLanguage.class);
     }
 }

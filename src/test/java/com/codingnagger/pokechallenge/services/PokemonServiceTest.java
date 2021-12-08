@@ -98,7 +98,7 @@ public class PokemonServiceTest {
     public void getBasicInformation_shouldCallTheRightEndpoint() {
         String pokemonName = randomString();
 
-        doReturn(ResponseEntity.ok(randomPokeApiResponseDto()))
+        doReturn(ResponseEntity.ok(randomPokeApiResponse()))
                 .when(restTemplate).getForEntity(anyString(), eq(PokeApiResponseDto.class));
 
         service.getBasicInformation(pokemonName);

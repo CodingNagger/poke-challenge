@@ -2,6 +2,7 @@ package com.codingnagger.pokechallenge.controllers;
 
 import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.codingnagger.pokechallenge.services.PokemonService;
+import com.codingnagger.pokechallenge.services.translation.PokemonTranslationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,25 +16,32 @@ import java.util.Optional;
 import static com.codingnagger.pokechallenge.testutils.FixtureProvider.randomPokemon;
 import static com.codingnagger.pokechallenge.testutils.FixtureProvider.randomString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class BasicInformationControllerTest {
+public class TranslatedInformationControllerTest {
     @Mock
     private PokemonService pokemonService;
 
+    @Mock
+    private PokemonTranslationService pokemonTranslationService;
+
     @InjectMocks
-    private BasicInformationController controller;
+    private TranslatedInformationController controller;
 
     @Test
-    public void getPokemonInfo_shouldReturnOkWithDto_whenServiceReturnsDto() {
+    public void getPokemonInfo_shouldReturnOkWithTranslatedDto_whenBothServicesReturnDto() {
         String pokemonName = randomString();
+        PokemonDto expectedTranslationParameter = randomPokemon();
         PokemonDto expectedBody = randomPokemon();
-        doReturn(Optional.of(expectedBody)).when(pokemonService).getBasicInformation(anyString());
 
-        ResponseEntity<PokemonDto> actualResponse = controller.getPokemonInfo(pokemonName);
+        doReturn(Optional.of(expectedTranslationParameter)).when(pokemonService).getBasicInformation(anyString());
+        doReturn(expectedBody).when(pokemonTranslationService).translate(any(PokemonDto.class));
+
+        ResponseEntity<PokemonDto> actualResponse = controller.getTranslatedPokemonInfo(pokemonName);
 
         assertThat(actualResponse)
                 .isNotNull()
@@ -45,14 +53,15 @@ public class BasicInformationControllerTest {
                 });
 
         verify(pokemonService).getBasicInformation(pokemonName);
+        verify(pokemonTranslationService).translate(expectedTranslationParameter);
     }
 
     @Test
-    public void getPokemonInfo_shouldReturnNotFound_whenServiceReturnsEmpty() {
+    public void getPokemonInfo_shouldReturnNotFound_whenPokemonServiceReturnsEmpty() {
         String pokemonName = randomString();
         doReturn(Optional.empty()).when(pokemonService).getBasicInformation(anyString());
 
-        ResponseEntity<PokemonDto> actualResponse = controller.getPokemonInfo(pokemonName);
+        ResponseEntity<PokemonDto> actualResponse = controller.getTranslatedPokemonInfo(pokemonName);
 
         assertThat(actualResponse)
                 .isNotNull()

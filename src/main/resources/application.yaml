@@ -3,3 +3,6 @@ server:
 
 poke-api:
   uri: https://pokeapi.co/api
+
+funtranslation-api:
+  uri: https://api.funtranslations.com

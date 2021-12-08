@@ -1,0 +1,10 @@
+{
+  "success": {
+    "total": 1
+  },
+  "contents": {
+    "translated": "Used a non pokemon-related text to test the integration of this api,  I have.",
+    "text": "I have used a non pokemon-related text to test the integration of this API.",
+    "translation": "yoda"
+  }
+}

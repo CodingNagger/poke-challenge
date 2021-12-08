@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,37 +23,44 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
-                "poke-api.uri=http://localhost:9999/api",
-                "funtranslation-api.uri=http://localhost:9996"
+                "poke-api.uri=http://localhost:9998/api",
+                "funtranslation-api.uri=http://localhost:9997"
         })
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureWebClient
-public class BasicInformationControllerIT {
-    private final static WireMockServer POKEAPI_SERVER = new WireMockServer(options().port(9999));
+public class TranslatedInformationControllerIT {
+    private final static WireMockServer POKEAPI_SERVER = new WireMockServer(options().port(9998));
+    private final static WireMockServer FUNTRANSLATION_SERVER = new WireMockServer(options().port(9997));
 
     @Autowired
     TestRestTemplate testRestTemplate;
 
     @BeforeAll
     static void setUp() {
+        FUNTRANSLATION_SERVER.start();
         POKEAPI_SERVER.start();
     }
 
     @Test
-    public void getBasicInfo_shouldReturnInfo_fromPokeApi() {
-        POKEAPI_SERVER.stubFor(get(urlEqualTo("/api/v2/pokemon-species/mewtwo"))
+    public void getBasicInfo_shouldReturnInfo_fromPokeApiAndTranslationApi() {
+        FUNTRANSLATION_SERVER.stubFor(post(urlEqualTo("/translate/shakespeare.json"))
                 .willReturn(aResponse().withStatus(200)
                         .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("mewtwo_response.json")));
+                        .withBodyFile("translation_response.json")));
+
+        POKEAPI_SERVER.stubFor(get(urlEqualTo("/api/v2/pokemon-species/charizard"))
+                .willReturn(aResponse().withStatus(200)
+                        .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBodyFile("charizard_response.json")));
 
         PokemonDto expectedInfo = PokemonDto.builder()
-                .name("Mewtwo")
-                .description("It was created by\na scientist after\nyears of horrific\fgene splicing and\nDNA engineering\nexperiments.")
-                .habitat("rare")
-                .isLegendary(true)
+                .name("Charizard")
+                .description("Used a non pokemon-related text to test the integration of this api,  I have.")
+                .habitat("mountain")
+                .isLegendary(false)
                 .build();
 
-        ResponseEntity<PokemonDto> response = testRestTemplate.getForEntity("/pokemon/mewtwo", PokemonDto.class);
+        ResponseEntity<PokemonDto> response = testRestTemplate.getForEntity("/pokemon/translated/charizard", PokemonDto.class);
 
         assertThat(response).isNotNull()
                 .satisfies(res -> {

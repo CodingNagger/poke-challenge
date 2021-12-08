@@ -4,7 +4,6 @@ import com.codingnagger.pokechallenge.model.PokemonDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiFlavourTextEntryDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiNameDto;
 import com.codingnagger.pokechallenge.model.pokeapi.PokeApiResponseDto;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -16,16 +15,18 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class PokemonService {
     public static final String LANGUAGE_ENGLISH = "en";
+    public static final String V2_POKEMON_SPECIES_ENDPOINT = "/v2/pokemon-species/";
 
-    @Autowired
-    @Qualifier("pokeApiRestTemplate")
     private final RestTemplate restTemplate;
 
+    public PokemonService(@Qualifier("pokeApiRestTemplate") RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     public Optional<PokemonDto> getBasicInformation(String pokemonName) {
-        ResponseEntity<PokeApiResponseDto> response = restTemplate.getForEntity("/v2/pokemon-species/" + pokemonName,
+        ResponseEntity<PokeApiResponseDto> response = restTemplate.getForEntity(V2_POKEMON_SPECIES_ENDPOINT + pokemonName,
                 PokeApiResponseDto.class);
 
         if (Objects.equals(HttpStatus.OK, response.getStatusCode())) {
