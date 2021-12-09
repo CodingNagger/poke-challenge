@@ -18,7 +18,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 import static com.codingnagger.pokechallenge.services.PokemonService.LANGUAGE_ENGLISH;
-import static com.codingnagger.pokechallenge.testutils.FixtureProvider.*;
+import static com.codingnagger.pokechallenge.testutils.FixtureProvider.pokeApiResponseWithFlavourTextEntries;
+import static com.codingnagger.pokechallenge.testutils.FixtureProvider.pokeApiResponseWithHabitat;
+import static com.codingnagger.pokechallenge.testutils.FixtureProvider.pokeApiResponseWithLegendaryStatus;
+import static com.codingnagger.pokechallenge.testutils.FixtureProvider.pokeApiResponseWithNames;
+import static com.codingnagger.pokechallenge.testutils.FixtureProvider.randomPokeApiResponse;
+import static com.codingnagger.pokechallenge.testutils.FixtureProvider.randomString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -103,7 +108,7 @@ public class PokemonServiceTest {
 
         service.getBasicInformation(pokemonName);
 
-        verify(restTemplate).getForEntity(eq(POKE_API_V2_SPECIES_ENDPOINT +pokemonName), eq(PokeApiResponseDto.class));
+        verify(restTemplate).getForEntity(eq(POKE_API_V2_SPECIES_ENDPOINT + pokemonName), eq(PokeApiResponseDto.class));
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.codingnagger.pokechallenge.http.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;

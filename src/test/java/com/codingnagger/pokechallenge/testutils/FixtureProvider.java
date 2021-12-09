@@ -13,8 +13,8 @@ import java.util.Arrays;
 import static java.util.Collections.singletonList;
 
 public class FixtureProvider {
-    private final static JFixture FIXTURE = new JFixture();
     public static final String LANGUAGE_EN = "en";
+    private final static JFixture FIXTURE = new JFixture();
 
     public static String randomString() {
         return FIXTURE.create(String.class);
