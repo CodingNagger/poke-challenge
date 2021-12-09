@@ -42,7 +42,7 @@ public class TranslatedInformationControllerIT {
     }
 
     @Test
-    public void getBasicInfo_shouldReturnInfo_fromPokeApiAndTranslationApi() {
+    public void getTranslatedPokemonInfo_shouldReturnInfo_fromPokeApiAndTranslationApi() {
         FUNTRANSLATION_SERVER.stubFor(post(urlEqualTo("/translate/shakespeare.json"))
                 .willReturn(aResponse().withStatus(200)
                         .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -66,6 +66,22 @@ public class TranslatedInformationControllerIT {
                 .satisfies(res -> {
                     assertThat(res.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
                     assertThat(res.getBody()).isEqualTo(expectedInfo);
+                });
+    }
+
+    @Test
+    public void getTranslatedPokemonInfo_shouldReturnEmptyNotFoundResponse_whenPokemonNotFoundOnPokeApi() {
+        POKEAPI_SERVER.stubFor(get(urlEqualTo("/api/v2/pokemon-species/november"))
+                .willReturn(aResponse().withStatus(404)
+                        .withHeader(CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+                        .withBody("Not Found")));
+
+        ResponseEntity<PokemonDto> response = testRestTemplate.getForEntity("/pokemon/translated/november", PokemonDto.class);
+
+        assertThat(response).isNotNull()
+                .satisfies(res -> {
+                    assertThat(res.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+                    assertThat(res.getBody()).isNull();
                 });
     }
 }

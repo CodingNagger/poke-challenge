@@ -33,7 +33,7 @@ public class TranslatedInformationControllerTest {
     private TranslatedInformationController controller;
 
     @Test
-    public void getPokemonInfo_shouldReturnOkWithTranslatedDto_whenBothServicesReturnDto() {
+    public void getTranslatedPokemonInfo_shouldReturnOkWithTranslatedDto_whenBothServicesReturnDto() {
         String pokemonName = randomString();
         PokemonDto expectedTranslationParameter = randomPokemon();
         PokemonDto expectedBody = randomPokemon();
@@ -57,7 +57,7 @@ public class TranslatedInformationControllerTest {
     }
 
     @Test
-    public void getPokemonInfo_shouldReturnNotFound_whenPokemonServiceReturnsEmpty() {
+    public void getTranslatedPokemonInfo_shouldReturnNotFound_whenPokemonServiceReturnsEmpty() {
         String pokemonName = randomString();
         doReturn(Optional.empty()).when(pokemonService).getBasicInformation(anyString());
 

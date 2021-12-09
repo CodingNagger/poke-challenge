@@ -39,7 +39,7 @@ public class BasicInformationControllerIT {
     }
 
     @Test
-    public void getBasicInfo_shouldReturnInfo_fromPokeApi() {
+    public void getPokemonInfo_shouldReturnInfo_fromPokeApi() {
         POKEAPI_SERVER.stubFor(get(urlEqualTo("/api/v2/pokemon-species/mewtwo"))
                 .willReturn(aResponse().withStatus(200)
                         .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -58,6 +58,22 @@ public class BasicInformationControllerIT {
                 .satisfies(res -> {
                     assertThat(res.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
                     assertThat(res.getBody()).isEqualTo(expectedInfo);
+                });
+    }
+
+    @Test
+    public void getPokemonInfo_shouldReturnEmptyNotFoundResponse_whenPokemonNotFoundOnPokeApi() {
+        POKEAPI_SERVER.stubFor(get(urlEqualTo("/api/v2/pokemon-species/november"))
+                .willReturn(aResponse().withStatus(404)
+                        .withHeader(CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+                        .withBody("Not Found")));
+
+        ResponseEntity<PokemonDto> response = testRestTemplate.getForEntity("/pokemon/november", PokemonDto.class);
+
+        assertThat(response).isNotNull()
+                .satisfies(res -> {
+                    assertThat(res.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+                    assertThat(res.getBody()).isNull();
                 });
     }
 }
